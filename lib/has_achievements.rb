@@ -1,13 +1,34 @@
-module HasAchievements
+module HasAchievements #:nodoc:
   
   def self.included(base)
     base.extend(HasManyMacro)
   end
   
+  
   module HasManyMacro
     def has_achievements(options={})
-      # pending
+      include InstanceMethods
+      extend ClassMethods
     end
-  end
+  end # HasManyMacro
   
-end
+  
+  module ClassMethods
+    # Get all achievements for class
+    def achievements
+      read_inheritable_attribute(:achievements).keys.collect { |achievement| achievement.to_sym }
+    end
+    
+    # Add achievement to class's achievements hash
+    def achievement(title, options={})
+      hook = {} # Just a test for now
+      write_inheritable_hash(:achievements, title => hook)
+    end
+  end # ClassMethods
+  
+  
+  module InstanceMethods
+    
+  end # InstanceMethods
+  
+end # HasAchievements
