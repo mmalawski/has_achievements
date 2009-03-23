@@ -16,7 +16,7 @@ module HasAchievements #:nodoc:
   module ClassMethods
     # Get all achievements for class
     def achievements
-      read_inheritable_attribute(:achievements).keys.collect { |achievement| achievement.to_sym }
+      read_inheritable_attribute(:achievements) || write_inheritable_attribute(:achievements, {})
     end
     
     # Add achievement to class's achievements hash
