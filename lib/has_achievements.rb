@@ -22,11 +22,12 @@ module HasAchievements #:nodoc:
     end
     
     # Add achievement to class's achievements hash
-    def achievement(title, options={})
+    def achievement(title, options={}, &hook)
       hook_method_name   = "#{title}_hook"
       hooked_achievement = HookedAchievement.new(title, hook_method_name, options)
       
-      # Todo: Create actual hook method that takes in proc
+      # Add hook method to model
+      define_method(hook_method_name, &hook)
       
       write_inheritable_hash(:achievements, title => hooked_achievement)
     end
